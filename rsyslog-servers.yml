@@ -12,7 +12,7 @@
       service: name=rsyslog state=started enabled=yes
 
     - name: Copy rsyslog client configuration file
-      copy: src=/ansible/config/rsyslog-server.conf dest=/etc/rsyslog.conf mode=0700
+      copy: src=/ansible/config/prod/syslog/rsyslog-server.conf dest=/etc/rsyslog.conf mode=0700
       notify: restart rsyslog
 
     - name: Replace SYSLOG_SERVER with server name
