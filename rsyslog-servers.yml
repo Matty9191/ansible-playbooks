@@ -1,0 +1,27 @@
+---
+- hosts: syslogservers
+  become: true
+  tasks:
+    - name: install rsyslog
+      yum: name={{item}} state=latest update_cache=yes
+      with_items:
+        - rsyslog
+      notify: restart rsyslog
+
+    - name: Ensure rsyslog started
+      service: name=rsyslog state=started enabled=yes
+
+    - name: Copy rsyslog client configuration file
+      copy: src=/ansible/config/rsyslog-server.conf dest=/etc/rsyslog.conf mode=0700
+      notify: restart rsyslog
+
+    - name: Replace SYSLOG_SERVER with server name
+      replace: 
+        dest: /etc/rsyslog.conf
+        regexp: SYSLOG_SERVER
+        replace: '{{ansible_hostname}}'
+        backup: yes
+
+  handlers:
+    - name: restart rsyslog
+      service: name=rsyslog state=restarted
