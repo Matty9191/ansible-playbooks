@@ -1,1 +1,1 @@
-# ansible-playbooks
+Sample playbooks and snippets.
