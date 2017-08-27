@@ -6,6 +6,7 @@
     geoip_db_url: "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz"
     geoip_db_md5sum_url: "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz.md5"
     geoip_db_compressed_file_name: "{{ geoip_db_url | basename }}"
+    geoip_db_uncompressed_file_name: "{{ geoip_db_url | basename | replace('.tar.gz','')}}"
     geoip_db_md5sum: "ca82582c02c4a4e57ec9d23a97adaa72"
   gather_facts: false
   tasks:
