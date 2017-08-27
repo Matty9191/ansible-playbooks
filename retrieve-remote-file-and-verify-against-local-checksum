@@ -31,4 +31,4 @@
        unarchive:
          src: "{{ geoip_dir }}/{{ geoip_db_compressed_file_name }}"
          dest: "{{ geoip_dir }}"
-       when: geoip_db_md5sum == st.stat.md5|default('ABCD')
+       when: geoip_db_md5sum == st.stat.md5
