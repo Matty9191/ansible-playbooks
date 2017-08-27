@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+  vars:
+    geoip_dir: "/tmp/geoip"
+    geoip_db_url: "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz"
+    geoip_db_md5sum_url: "http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz.md5"
+    geoip_db_compressed_file_name: "{{ geoip_db_url | basename }}"
+  gather_facts: false
+  tasks:
+     - name: Create geoip directory if it doesn't exist
+       file:
+         path: "{{ geoip_dir }}"
+         state: directory
+         mode: 0700
+
+     - name: "Downloading the latest GeoIP database to {{ geoip_dir }}"
+       get_url:
+         url: "{{ geoip_db_url }}"
+         dest: "{{ geoip_dir }}/{{ geoip_db_compressed_file_name }}"
+         mode: 0600
+         checksum: "md5:{{ lookup('url', geoip_db_md5sum_url) }}"
+       register: geoip_db_download_results
